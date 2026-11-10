@@ -6,7 +6,7 @@
     <title>Acidente de Trabalho | Advogada Trabalhista - Dra. Natasha Cordeiro</title>
     <meta name="description" content="Sofreu acidente de trabalho, foi afastado pelo INSS ou desenvolveu doença ocupacional? Entenda seus direitos com orientação jurídica trabalhista. Atendimento online em todo o Brasil.">
     <meta name="theme-color" content="#0f172a">
-    <link rel="canonical" href="https://ygorsc23.github.io/acidente-trabalho/">
+    <link rel="canonical" href="https://acidentetrabalho.natashacordeiro.adv.br/">
     <link rel="icon" href="logo.webp" type="image/webp">
     <link rel="preload" as="image" href="carteira-trabalho.webp">
     <link rel="preload" as="image" href="logo.webp">
@@ -155,11 +155,27 @@
         @media (max-width:640px){header{padding:28px 18px 56px}.site-logo{width:118px;margin-bottom:16px}.hero-actions{display:grid;grid-template-columns:1fr}.btn-cta{width:100%;padding:16px 18px}.section{padding:50px 18px}.pain-grid,.cards-container,.process-grid{grid-template-columns:1fr}.alert-box{display:block}.alert-icon{margin-bottom:12px}.about-section{padding:56px 18px}.final-cta{padding:34px 20px;border-radius:22px}footer{padding-bottom:92px}.whatsapp-float{right:18px;bottom:18px;width:60px;height:60px}}
     </style>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11286707600"></script>
+    <!-- ============================================================
+         TRACKING: GA4 + Google Ads
+         GA4: G-TQ7WH940K9  |  Google Ads: AW-11286707600
+         Consentimento provisorio: concedido (TODO: banner LGPD)
+         ============================================================ -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TQ7WH940K9"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+
+      // Consent Mode v2 — provisorio: concedido para comecar a medir.
+      // TODO: trocar para 'denied' e liberar via banner de consentimento (LGPD).
+      gtag('consent', 'default', {
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted'
+      });
+
       gtag('js', new Date());
+      gtag('config', 'G-TQ7WH940K9');
       gtag('config', 'AW-11286707600');
 
       function gtag_report_conversion(url) {
@@ -178,6 +194,57 @@
         callback();
         return false;
       }
+    </script>
+
+    <!-- Origem do lead (first-touch): gclid, fbclid e UTMs -->
+    <script>
+      (function () {
+        try {
+          var p = new URLSearchParams(window.location.search);
+          var origem = {
+            gclid: p.get('gclid'),
+            fbclid: p.get('fbclid'),
+            utm_source: p.get('utm_source'),
+            utm_medium: p.get('utm_medium'),
+            utm_campaign: p.get('utm_campaign'),
+            utm_content: p.get('utm_content'),
+            utm_term: p.get('utm_term'),
+            landing: window.location.href,
+            em: new Date().toISOString()
+          };
+          var temParametro = Object.keys(origem).some(function (chave) {
+            return chave !== 'landing' && chave !== 'em' && origem[chave];
+          });
+          if (temParametro) {
+            localStorage.setItem('origem_lead', JSON.stringify(origem));
+          }
+        } catch (e) {
+          // localStorage indisponivel (modo privado): segue sem atribuicao
+        }
+      })();
+    </script>
+
+    <!-- Evento unico para todos os CTAs de WhatsApp -->
+    <script>
+      document.addEventListener('click', function (evento) {
+        var alvo = evento.target;
+        var link = alvo && alvo.closest
+          ? alvo.closest('a[href*="api.whatsapp.com"], a[href*="wa.me"]')
+          : null;
+        if (!link) return;
+
+        var rotulo = link.getAttribute('aria-label') || link.className || 'cta';
+        var salvo = null;
+        try { salvo = JSON.parse(localStorage.getItem('origem_lead') || 'null'); } catch (e) {}
+
+        gtag('event', 'whatsapp_click', {
+          origem: rotulo,
+          pagina: window.location.pathname,
+          tem_gclid: salvo && salvo.gclid ? 'sim' : 'nao'
+        });
+
+        if (typeof fbq === 'function') fbq('track', 'Contact');
+      }, true);
     </script>
 </head>
 <body>
@@ -252,7 +319,7 @@
         </div>
     </section>
 
-    <section class="section section-narrow">
+    <section class="section section-narrow" id="como-funciona">
         <div class="section-kicker">Como funciona</div>
         <h2>Atendimento simples, sigiloso e sem juridiquês</h2>
         <p class="section-lead">Você pode iniciar pelo WhatsApp e enviar os documentos necessários para uma avaliação jurídica inicial.</p>
@@ -272,7 +339,7 @@
         </div>
     </section>
 
-    <section class="about-section">
+    <section class="about-section" id="advogada">
         <div class="about-container">
             <div class="about-image">
                 <img src="foto-advogada.webp" alt="Dra. Natasha Cordeiro">
@@ -302,7 +369,7 @@
         <p class="reviews-disclaimer">Cada caso é analisado individualmente. Avaliações de clientes não representam promessa de resultado em situações futuras.</p>
     </section>
 
-    <section class="section faq-section">
+    <section class="section faq-section" id="faq">
         <div class="section-kicker">Dúvidas frequentes</div>
         <h2>Perguntas comuns sobre acidente de trabalho</h2>
         <p class="section-lead">As respostas abaixo são informativas. A orientação adequada depende da análise individual dos fatos e documentos.</p>
@@ -366,6 +433,7 @@
         </div>
 
         <p class="legal-note">Este site tem caráter exclusivamente informativo e não representa promessa de resultado. A viabilidade de qualquer medida jurídica depende da análise individual do caso concreto.</p>
+        <p class="legal-note"><a href="privacidade.html">Política de Privacidade</a></p>
     </div>
 </footer>
 
