@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://acidentetrabalho.natashacordeiro.adv.br/sitemap.xml
